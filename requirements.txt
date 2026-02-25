@@ -1,0 +1,21 @@
+# ─── Core Agent Framework ─────────────────────────────────────────────────────
+agno
+
+# ─── Azure OpenAI (LLM backend) ───────────────────────────────────────────────
+openai
+
+# ─── MCP Server ───────────────────────────────────────────────────────────────
+mcp[cli]
+
+# ─── Web UI (Gradio chat interface) ───────────────────────────────────────────
+gradio
+
+# ─── Database / Data ──────────────────────────────────────────────────────────
+sqlalchemy
+pandas
+
+# ─── HTTP Requests (Azure Maps API) ──────────────────────────────────────────
+requests
+
+# ─── Environment Variables ────────────────────────────────────────────────────
+python-dotenv
