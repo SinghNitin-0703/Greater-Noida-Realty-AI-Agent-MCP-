@@ -3,8 +3,9 @@ from dotenv import load_dotenv
 
 # ─── Load .env file ─────────────────────────────────────────────────────────
 _HERE = os.path.dirname(os.path.abspath(__file__))
+_PROJECT_ROOT = os.path.dirname(_HERE)
 _env_candidates = [
-    os.path.join(_HERE, ".env"),
+    os.path.join(_PROJECT_ROOT, ".env"),
     os.path.join(os.getcwd(), ".env"),
 ]
 
@@ -21,7 +22,8 @@ if not _loaded:
 
 # ─── Configuration Variables ────────────────────────────────────────────────
 # Safely locate the database regardless of where the script is run from
-DB_PATH  = os.getenv("DB_PATH", os.path.join(_HERE, "nobroker.db"))
+DB_PATH  = os.getenv("DB_PATH", os.path.join(_PROJECT_ROOT, "data", "nobroker.db"))
+CSV_PATH = os.getenv("CSV_PATH", os.path.join(_PROJECT_ROOT, "data", "raw", "nobroker_slow_scroll.csv"))
 
 AZURE_OPENAI_API_KEY  = os.getenv("AZURE_OPENAI_API_KEY")
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -29,6 +31,7 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_DEPLOYMENT      = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1-mini-2")
 AZURE_API_VERSION     = os.getenv("AZURE_OPENAI_API_VERSION", "2024-08-01-preview")
 AZURE_MAPS_KEY        = os.getenv("AZURE_MAPS_KEY")
+MCP_SERVER_URL        = os.getenv("MCP_SERVER_URL", "http://localhost:8000/sse")
 
 # ─── Validate Required Keys ─────────────────────────────────────────────────
 _missing = [

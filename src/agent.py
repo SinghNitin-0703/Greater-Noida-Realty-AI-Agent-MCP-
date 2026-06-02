@@ -6,7 +6,7 @@ from agno.memory import MemoryManager
 from agno.tools.sql import SQLTools
 from agno.tools.mcp import MCPTools
 
-from config import DB_PATH, AZURE_DEPLOYMENT, AZURE_API_VERSION
+from config import DB_PATH, AZURE_DEPLOYMENT, AZURE_API_VERSION, MCP_SERVER_URL
 
 async def create_agent(session_id: str, user_id: str) -> tuple[Agent, MCPTools]:
     # 1. Initialize Database and Memory
@@ -15,7 +15,7 @@ async def create_agent(session_id: str, user_id: str) -> tuple[Agent, MCPTools]:
     
     # 2. Connect to the MCP server safely via SSE URL
     mcp_tools = MCPTools(
-        url="http://localhost:8000/sse",
+        url=MCP_SERVER_URL,
         transport="sse" # Explicitly tell Agno to use the SSE protocol instead of HTTP POST
     )
     await mcp_tools.connect()

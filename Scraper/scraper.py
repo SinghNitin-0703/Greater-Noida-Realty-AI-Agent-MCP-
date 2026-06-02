@@ -10,7 +10,8 @@ from selenium.webdriver.chrome.options import Options
 # ==========================================
 TARGET_URL = "https://www.nobroker.in/property/rent/noida/Greater%20Noida/?searchParam=W3sibGF0IjoyOC4zNDM1MDkyNjc1LCJsb24iOjc3LjU2NTAwNTQ4MTA5MTIsInBsYWNlSWQiOiJFbWhIY21WaGRHVnlJRTV2YVdSaElGZGxjM1FnVEdsdWF5QlNiMkZrTENCVmJtbDBaV05vSUVodmNtbDZiMjRzSUZCcElFa2dKaUJKU1N3Z1VHa2dTU0FtSUVscExDQkhjbVZoZEdWeUlFNXZhV1JoTENCVmRIUmhjaUJRY21Ga1pYTm9MQ0JKYm1ScFlTSXVLaXdLRkFvU0NhMmwtdEFDd0F3NUVYZFdWTHdzb1NrYkVoUUtFZ2tEZ2pjbHBPb01PUkdKcVF4ME8xVENBZyIsInBsYWNlTmFtZSI6IkdyZWF0ZXIgTm9pZGEiLCJzaG93TWFwIjpmYWxzZX1d&sharedAccomodation=0&radius=2.0&buildingType=AP&leaseType=FAMILY,BACHELOR_MALE,BACHELOR_FEMALE&furnishing=FULLY_FURNISHED,SEMI_FURNISHED,NOT_FURNISHED"
 
-OUTPUT_FILE = "nobroker_slow_scroll.csv"
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUTPUT_FILE = os.path.join(_PROJECT_ROOT, "data", "raw", "nobroker_slow_scroll.csv")
 TARGET_COUNT = 2000
 SCROLL_BATCH_SIZE = 15  # Save less frequently to allow more loading time
 MAX_RETRIES_NO_NEW_DATA = 8 # More patience before quitting
