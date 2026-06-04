@@ -27,7 +27,7 @@ An agentic AI assistant for the **Greater Noida** rental market, powered by:
 └──────────────────┬──────────────────────────┘
                    │  SSE  http://localhost:8000/sse
 ┌──────────────────▼──────────────────────────┐
-│         MCP Server (mcp_server.py)           │
+│         MCP Server (server.py)               │
 │  • find_nearby_amenity (Azure Maps API)      │
 │  • evaluate_deal      (SQLite median data)   │
 └─────────────────────────────────────────────┘
@@ -49,14 +49,18 @@ An agentic AI assistant for the **Greater Noida** rental market, powered by:
 
 ```
 Realestate AI_Agent MCP-SSE/
-├── main/
-│   ├── MCP_Tools/
-│   │   └── mcp_server.py     # FastMCP server exposing tools over SSE
+├── src/
+│   ├── mcp_server/
+│   │   └── server.py         # FastMCP server exposing tools over SSE
 │   ├── agent.py              # Agno agent definition
 │   ├── app.py                # Gradio chat UI entry point
 │   ├── config.py             # Env-var loading & validation
-│   ├── database.py           # CSV → SQLite builder
+│   └── database.py           # CSV → SQLite builder
+├── data/
+│   ├── raw/                  # Contains raw scraped CSV files
 │   └── nobroker.db           # SQLite property database (git-ignored)
+├── scraper/
+│   └── scraper.py            # Selenium web scraper for NoBroker
 ├── .env.example              # Template for required secrets
 ├── .gitignore
 ├── requirements.txt
@@ -101,10 +105,11 @@ cp .env.example .env   # or copy on Windows
 ```env
 AZURE_OPENAI_API_KEY=<your-azure-openai-key>
 AZURE_OPENAI_ENDPOINT=https://<your-resource>.openai.azure.com/
-AZURE_OPENAI_DEPLOYMENT=gpt-4o-mini          # your deployment name
+AZURE_OPENAI_DEPLOYMENT=gpt-4.1-mini-2       # your deployment name
 AZURE_OPENAI_API_VERSION=2024-08-01-preview
 AZURE_MAPS_KEY=<your-azure-maps-key>
-DB_PATH=main/nobroker.db                     # optional, defaults to this
+DB_PATH=data/nobroker.db                     # optional, defaults to this
+CSV_PATH=data/raw/nobroker_slow_scroll.csv   # optional, defaults to this
 ```
 
 ---
@@ -116,15 +121,15 @@ You need **two terminals** running simultaneously.
 ### Terminal 1 — Start the MCP Server
 
 ```bash
-cd main/MCP_Tools
-python mcp_server.py
+cd src/mcp_server
+python server.py
 # Server starts at http://localhost:8000/sse
 ```
 
 ### Terminal 2 — Start the Gradio UI
 
 ```bash
-cd main
+cd src
 python app.py
 # UI opens at http://localhost:7860
 ```
@@ -148,11 +153,11 @@ python app.py
 |----------|----------|-------------|
 | `AZURE_OPENAI_API_KEY` | ✅ | Azure OpenAI API key |
 | `AZURE_OPENAI_ENDPOINT` | ✅ | Azure OpenAI endpoint URL |
-| `AZURE_OPENAI_DEPLOYMENT` | ✅ | Deployment name (e.g. `gpt-4o-mini`) |
+| `AZURE_OPENAI_DEPLOYMENT` | ✅ | Deployment name (e.g. `gpt-4.1-mini-2`) |
 | `AZURE_OPENAI_API_VERSION` | ✅ | API version string |
 | `AZURE_MAPS_KEY` | ✅ | Azure Maps subscription key |
-| `DB_PATH` | ❌ | Path to SQLite DB (default: `main/nobroker.db`) |
-| `CSV_PATH` | ❌ | Path to raw CSV (only needed to rebuild DB) |
+| `DB_PATH` | ❌ | Path to SQLite DB (default: `data/nobroker.db`) |
+| `CSV_PATH` | ❌ | Path to raw CSV (default: `data/raw/nobroker_slow_scroll.csv`) |
 
 ---
 
